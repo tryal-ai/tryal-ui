@@ -1,0 +1,33 @@
+{
+  "name": "tryal-ui",
+  "version": "1.0.0",
+  "description": "Tryal.AI UI allows 3rd parties to build workings based UIs for students to practice for exams on",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "rm -rf ./build && npx webpack --watch",
+    "build": "rm -rf ./build && npx webpack"
+  },
+  "author": "Adam Green",
+  "license": "ISC",
+  "devDependencies": {
+    "compression-webpack-plugin": "^7.0.0",
+    "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^5.0.1",
+    "extract-css-chunks-webpack-plugin": "^4.8.0",
+    "pegjs-loader": "^0.5.6",
+    "sass": "^1.29.0",
+    "sass-loader": "^10.1.0",
+    "style-loader": "^2.0.0",
+    "svelte": "^3.29.7",
+    "svelte-loader": "^2.13.6",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "mathjax": "^3.1.2",
+    "mathml-elements": "^0.3.0",
+    "pegjs": "^0.10.0",
+    "texsvg": "^1.3.0"
+  }
+}
