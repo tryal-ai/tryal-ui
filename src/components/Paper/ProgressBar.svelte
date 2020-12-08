@@ -13,7 +13,9 @@
 </script>
 <div class="main">
     <div class="fill" style="width: {$width}%;"></div>
+    <!--
     <p>{steps[stage]}</p>
+    -->
 </div>
 
 <style>
@@ -25,11 +27,13 @@
         margin-bottom: 20px;
     }
     .fill {
-        position: absolute;
+        position: relative;
         height: 20px;
         background-color: green;
     }
     p {
+        top: 0;
+        position: relative;
         margin-top: 2px;
         margin-bottom: 2px;
         font-size: 16px;
