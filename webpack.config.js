@@ -1,9 +1,11 @@
+const CompressionPlugin = require("compression-webpack-plugin");
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 module.exports = env => {
-    const mode = env && ['production', 'development'].includes(env.MODE) ? env.MODE : 'development';   
+    const mode = env && ['production', 'development'].includes(env.MODE) ? env.MODE : 'development';
+    const bundleCss = env && env.CSS;   
     const dev = mode === 'development';
     return {
         name: 'tryal-ui',
@@ -21,7 +23,8 @@ module.exports = env => {
                 //Src links
                 components: path.resolve('src', 'components'),
                 styles: path.resolve('src', 'styles'),
-                lib: path.resolve('src', 'lib')
+                lib: path.resolve('src', 'lib'),
+                assets: path.resolve('src', 'assets')
             },
             extensions: ['.mjs', '.js', '.svelte'],
             mainFields: ['svelte', 'browser', 'module', 'main']
@@ -47,7 +50,7 @@ module.exports = env => {
                 {
                     test: /\.css$/,
                     use: [
-                        dev ? 'style-loader' : ExtractCssChunks.loader,
+                        dev || bundleCss ? 'style-loader' : ExtractCssChunks.loader,
                         {
                             loader: 'css-loader',
                             options: {
@@ -60,7 +63,7 @@ module.exports = env => {
                     test: /\.s[ac]ss$/i,
                     use: [
                         // Creates `style` nodes from JS strings
-                        dev ? 'style-loader' : ExtractCssChunks.loader,
+                        dev || bundleCss ? 'style-loader' : ExtractCssChunks.loader,
                         // Translates CSS into CommonJS
                         {
                             loader: 'css-loader',
@@ -72,6 +75,17 @@ module.exports = env => {
                         'sass-loader',
                     ],
                 },
+                {
+                    test: /\.(png|jp(e*)g|svg)$/i,
+                    use: [{
+                        loader: 'url-loader',
+                        options: {
+                            limit: 100000,
+                            name: 'assets/[hash]-[name].[ext]'
+                        }
+                    }
+                    ],
+                },
             ]
         },
         plugins: [
@@ -81,8 +95,12 @@ module.exports = env => {
                 filename: '[name].css',
             }),
             new CopyPlugin([
-                './src/index.html'
+                './src/index.html',
             ]),
+            new CompressionPlugin({
+                test: /\.(css|js)$/
+            }),
+
         ],
     };
 }

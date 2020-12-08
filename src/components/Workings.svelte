@@ -1,5 +1,5 @@
 <script>
-    import Line from './Line.svelte';
+    import Line from './Line';
     let workings = [''];
     $: {
         workings = [...workings.filter(v => v !== ''), ''];

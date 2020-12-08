@@ -32,7 +32,10 @@ MultiplyDividePower
         brackets: true,
         }; })
         S: ("*" / "/" / "^" / "") 
-        R: (ConstantCoeffTerm / "(" O: Operation ")" { return O; }) {
+        R: (ConstantCoeffTerm / "(" O: Operation ")" { return { 
+            ...O,
+            brackets: true, 
+        }; }) {
             return {
                 lhs: L,
                 symbol: S !== "" ? S : "x",

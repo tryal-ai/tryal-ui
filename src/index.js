@@ -1,6 +1,8 @@
 import components from 'components';
 import 'styles/global.sass';
 
+window.sessionId = "blank";
+
 document.addEventListener('DOMContentLoaded', (event) => {
     //the event occurred
     const display = document.getElementById('tryalui');
