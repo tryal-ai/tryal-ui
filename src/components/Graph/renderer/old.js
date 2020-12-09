@@ -1,5 +1,3 @@
-let ctx = null;
-
 const drawAxes = (canvas, ctx) => {
     ctx.moveTo(canvas.width / 2, 0);
     ctx.lineTo(canvas.width / 2, canvas.height);
@@ -23,20 +21,10 @@ const drawPolynomial = (canvas, ctx, coeffs) => {
         (-10 * xRatio) + (canvas.width / 2), 
         (f(-10) * yRatio) + (canvas.height / 2));
 
-    for (let x = -9; x < 10; x = x + 0.2) {
+    for (let x = -9; x < 10; x = x + 0.1) {
         ctx.lineTo(
             (x * xRatio) + (canvas.width / 2), 
             (f(x) * yRatio) + (canvas.height / 2));
         ctx.stroke();
     }
-}
-
-export const render = (canvas, trygraph, width, height) => {
-    if (!canvas) return;
-    canvas.width = width;
-    canvas.height = height;
-    if (!ctx) ctx = canvas.getContext("2d");
-    
-    drawAxes(canvas, ctx);
-    drawPolynomial(canvas, ctx, [1, 2, -2]);
 }
