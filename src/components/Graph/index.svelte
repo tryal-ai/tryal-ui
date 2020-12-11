@@ -1,27 +1,60 @@
 <script>
-    import {onMount} from 'svelte';
-    import {width, pollWidth} from './local';
-    import {render} from './renderer';
-
-    let canvas = null;
+    import { onMount } from 'svelte';
+    import { width, updateWidth } from './width.js';
+    import TryGraph from 'trygraph';
+    import logo from 'assets/logo_icon.png';
+    import tryGraphLogo from 'assets/trygraph_logo.png';
     let container = null;
+    let canvas = null;
+    let tryGraph = null;
+
     onMount(() => {
-        const stop = pollWidth(container);
+        updateWidth(container);
+        window.addEventListener('resize', () => updateWidth(container));
+        tryGraph = new TryGraph(canvas, width, {});
     });
-
-    width.subscribe(v => {
-        render(canvas, {}, v, 600);
-    })
-
-
 </script>
+
+<div class="header">
+    <img src={tryGraphLogo} alt="TryGraph Logo" />
+    <p>
+        TryGraph by 
+    </p> 
+    <img src={logo} alt="Tryal.AI Logo" /> 
+    <p>
+        Tryal.AI
+    </p>
+</div>
 <div bind:this={container}>
-    <canvas bind:this={canvas}></canvas>
+    <canvas 
+        width={$width}
+        height={$width}
+        bind:this={canvas}></canvas>
 </div>
 
 <style>
     div {
-        width: 100%;
         max-width: 800px;
+        margin: 0 auto;
+    }
+    canvas {
+        border: 1px solid #000;
+    }
+    .header {
+        height: 100px;
+        vertical-align: middle;
+        margin-bottom: 20px;
+        color: #000;
+    }
+    .header > p {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0;
+        font-size: 40px;
+    }
+    img {
+        height: 100%;
+        vertical-align: middle;
+
     }
 </style>

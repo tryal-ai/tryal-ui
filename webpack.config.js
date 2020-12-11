@@ -24,7 +24,8 @@ module.exports = env => {
                 components: path.resolve('src', 'components'),
                 styles: path.resolve('src', 'styles'),
                 lib: path.resolve('src', 'lib'),
-                assets: path.resolve('src', 'assets')
+                assets: path.resolve('src', 'assets'),
+                trygraph: path.resolve('trygraph')
             },
             extensions: ['.mjs', '.js', '.svelte'],
             mainFields: ['svelte', 'browser', 'module', 'main']
