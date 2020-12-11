@@ -11,6 +11,11 @@ export default class Component {
         return this.trygraph.reference.toCanvas(x, y);
     }
 
+    toRelRef(x, y) {
+        if (this.options.refOff) return [x, y];
+        return this.trygraph.reference.toRelRef(x, y);
+    }
+
     computeUnitScale(u) {
         //Allows for absolute co-ordinate system rather than reference system
         if (this.options.refOff) return u;
@@ -26,6 +31,10 @@ export default class Component {
 
     addToParent() {
         this.trygraph.app.stage.addChild(this.graphic);
+    }
+
+    removeFromParent() {
+        this.trygraph.app.stage.removeChild(this.graphic);
     }
 
     getProp(key, defacto) {

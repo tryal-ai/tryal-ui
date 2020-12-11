@@ -1,7 +1,7 @@
 import Component from './Component';
 import { Text } from 'pixi.js';
 
-export default class Line extends Component {
+export default class Label extends Component {
     constructor(trygraph, text, x, y, options = {}) {
         super(trygraph, new Text(text), options);
         

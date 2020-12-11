@@ -70,13 +70,8 @@ export default class GraphingPaper {
     }
 
     generateReferenceFrame() {
-        this.trygraph.reference = new ReferenceFrame(
-            ...computeWidthHeight(this.options, this.view.width, this.view.height),
-            this.view.width / 2,
-            this.view.height / 2,
-            this.options.x_range,
-            this.options.y_range
-        );
+        this.trygraph.reference = 
+            new ReferenceFrame(this.trygraph, this.options);
     }
 
     setZoom(zoom) {

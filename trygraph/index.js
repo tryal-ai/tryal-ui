@@ -1,10 +1,10 @@
-import * as PIXI from 'pixi.js';
+import {Application} from 'pixi.js';
 import {get} from 'svelte/store';
 import GraphingPaper from './papers/GraphingPaper';
 
 export default class TryGraph {
     constructor(canvas, width, data = {}) {
-        this.app = new PIXI.Application({
+        this.app = new Application({
             view: canvas,
             backgroundColor: 0xFFFFFF,
             width: get(width),
@@ -13,7 +13,7 @@ export default class TryGraph {
         });
         
         
-        const paper = new GraphingPaper(this, {
+        this.paper = new GraphingPaper(this, {
             x_range: [-10, 10],
             y_range: [-10, 10],
             origin: [0, 0],
@@ -21,33 +21,36 @@ export default class TryGraph {
             minor_tick: 0.2,
             scale: 'even'
         });
-        canvas.addEventListener('wheel', event => {
+
+        const handler = (event, paper) => {
             event.preventDefault();
             paper.setZoom(paper.getZoom() + (event.deltaY * 0.001));
-        });
+        }
 
-        //On mouse down
-        canvas.addEventListener('mousedown', () => {
-            //Add a movement listener
-            const onMove = event => {
-                const offset = paper.getOffset();
-                paper.setOffset(offset[0] + event.movementX, offset[1] + event.movementY);
-            }
-            canvas.addEventListener('mousemove', onMove);
+        canvas.addEventListener('wheel', (event) => handler(event, this.paper));
 
-            //Remove it if the mouse up or leave events fire
-            canvas.addEventListener('mouseup', () =>
-                canvas.removeEventListener('mousemove', onMove));
-            canvas.addEventListener('mouseleave', () =>
-                canvas.removeEventListener('mousemove', onMove));
-        })
+        ////On mouse down
+        //canvas.addEventListener('mousedown', () => {
+        //    //Add a movement listener
+        //    const onMove = event => {
+        //        const offset = paper.getOffset();
+        //        paper.setOffset(offset[0] + event.movementX, offset[1] + event.movementY);
+        //    }
+        //    canvas.addEventListener('mousemove', onMove);
+//
+        //    //Remove it if the mouse up or leave events fire
+        //    canvas.addEventListener('mouseup', () =>
+        //        canvas.removeEventListener('mousemove', onMove));
+        //    canvas.addEventListener('mouseleave', () =>
+        //        canvas.removeEventListener('mousemove', onMove));
+        //})
 
         //Subscribe to changes in size
         width.subscribe(v => {
-            paper.draw();
+            this.paper.draw();
         });
 
-        paper.draw();
+        this.paper.draw();
 
     }
 }
