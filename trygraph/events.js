@@ -15,3 +15,9 @@ export const ondrag = (obj, handler) => {
     obj.on('mousedown', wrapper);
     return () => obj.removeListener('mousedown', wrapper);
 }
+
+export const onhold = (obj, down, up) => {
+    obj.on('mousedown', down);
+    obj.on('mouseup', up);
+    obj.on('mouseout', up);
+}

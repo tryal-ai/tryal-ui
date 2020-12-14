@@ -27,27 +27,30 @@ export default class GraphingPaper {
                 opacity: v % options.major_tick == 0 ? 1 : 0.2,
             }));
 
+        //generate X labels
         this.x_labels = computeRange(options.x_range, options.major_tick)
             .map((v, i) => new Text(this.trygraph, `${v}`, v - 0.15, 0, {
                 size: 0.3
             }));
         
+        //generate Y labels
         this.y_labels = computeRange(options.y_range, options.major_tick)
             .map((v, i) => new Text(this.trygraph, `${v}`, -0.3, v + 0.15, {
                 size: 0.3
             }));
         
+        //TODO: Remove this curve
         this.example = new Polynomial(this.trygraph, [1, 1, 0, -3], {
             resolution: 200,
         });
     }
-
-
+    
     draw() {
         this.vertical_grid.forEach(l => l.draw());
         this.horizontal_grid.forEach(l => l.draw());
         this.x_labels.forEach(l => l.draw());
         this.y_labels.forEach(l => l.draw());
+        //TODO: Remove redrawing the curve
         this.example.draw();
     }
 }
