@@ -30,11 +30,11 @@ export default class Component {
     }
 
     addToParent() {
-        this.trygraph.app.stage.addChild(this.graphic);
+        this.trygraph.add(this.graphic);
     }
 
     removeFromParent() {
-        this.trygraph.app.stage.removeChild(this.graphic);
+        this.trygraph.remove(this.graphic);
     }
 
     getProp(key, defacto) {

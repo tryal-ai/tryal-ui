@@ -1,5 +1,6 @@
+import { Graphics, Rectangle } from 'pixi.js';
+import { binomial_expansion } from 'trygraph/utils'; 
 import Component from './Component';
-import { Graphics } from 'pixi.js';
 import Coordinate from './Coordinate';
 
 export default class Polynomial extends Component {
@@ -9,8 +10,6 @@ export default class Polynomial extends Component {
         
         //Record co-ordinates and options
         this.coefficients = coeffs.reverse();
-        this.xOffset = 0;
-        this.yOffset = 0;
         this.coordinates = [];
 
         //Construct the graphic
@@ -18,23 +17,30 @@ export default class Polynomial extends Component {
         this.draw();
         this.graphic.interactive = true;
         this.graphic.on('mousedown', event => {
-            event.stopPropagation();
-            this.options.color = 0xFF0000;
-
-            const handler = e2 => {
-                e2.stopPropagation();
-                this.xOffset += e2.data.originalEvent.movementX;
-                this.yOffset -= e2.data.originalEvent.movementY;
+            if (!event.stopped) {
+                event.stopPropagation();
+                this.options.color = 0xFF0000;
+                this.trygraph.target.focus(this.graphic.getBounds());
+                const handler = e2 => {
+                    e2.stopPropagation();
+                    const offset = this.toRelRef(
+                        e2.data.originalEvent.movementX, 
+                        e2.data.originalEvent.movementY
+                    );
+                    this.coefficients = this.translate(offset[0], -offset[1]);
+                    this.draw();
+                    this.trygraph.target.focus(this.graphic.getBounds());
+                };
+                    
+                this.graphic.on('mousemove', handler);
+                this.graphic.on('mouseup', () => {
+                    this.options.color = 0x000000;
+                    this.graphic.removeListener('mousemove', handler);
+                    //this.trygraph.target.clearFocus();
+                    this.draw();
+                });
                 this.draw();
-            };
-
-            this.graphic.on('mousemove', handler);
-            this.graphic.on('mouseup', () => {
-                this.options.color = 0x000000;
-                this.graphic.removeListener('mousemove', handler);
-                this.draw();
-            });
-            this.draw();
+            }
         });
     }
     
@@ -42,18 +48,36 @@ export default class Polynomial extends Component {
         return this.coefficients.reduce((prev, curr, i) => prev + (curr * Math.pow(x, i)));
     }
 
+
+    translate(x, y) {
+        const result = this.coefficients
+            .map((coeff, i) => binomial_expansion(coeff, i, -x))
+            .reverse()
+            .reduce((prev, curr) => 
+                prev.map((v, i) => v += curr[i] ? curr[i] : 0)
+            );
+        result[0] += y;
+        return result;
+    }
+
+    scaleX(factor) {
+        return this.coefficients.map((v, i) => v * Math.pow(factor, i));
+    }
+
+    scaleY(factor) {
+        return this.coefficients.map(v => v * factor);
+    }
+
     getSketchPoints() {
-        const offset = this.toRelRef(this.xOffset, this.yOffset);
-        const sketchPoints = [[0, this.func(0) + offset[1]]];
+        const sketchPoints = [[0, this.func(0)]];
         //Compute drawing bounds
         const bounds = this.getBounds();
         const [xMin, xMax] = bounds.x;
-        const [yMin, yMax] = bounds.y;
 
         const changeOfSign = (x1, x2) => {
             const midpoint = (x1 + x2) / 2;
             const ym = this.func(midpoint);
-            if (Math.abs(ym) < 0.01) return [midpoint + offset[0], ym];
+            if (Math.abs(ym) < 0.01) return [midpoint, ym];
             const y1 = this.func(x1);
             const y2 = this.func(x2);
             if ((y1 >= 0 && ym < 0) || (y1 < 0 && ym >= 0)) return changeOfSign(x1, midpoint);
@@ -93,18 +117,15 @@ export default class Polynomial extends Component {
         const [yMin, yMax] = bounds.y;
 
         //fill with a translucent fill
-        this.graphic.beginFill(0xFFFFFF, 0.8);
-
-        const offset = this.toRelRef(this.xOffset, this.yOffset);
+        //this.graphic.beginFill(0xFFFFFF, 0.8);
 
 
         //Indicate if to move or draw
         let move = true;
         for (let x = xMin; x < xMax; x += (xMax - xMin) / this.getProp('resolution', 100)) {
-            const y = this.func(x) + offset[1];
-            const compX = x + offset[0];
-            if (compX > xMin && compX < xMax && y > yMin && y < yMax) {
-                const [posX, posY] = this.toCanvas(compX, y);
+            const y = this.func(x);
+            if (x > xMin && x < xMax && y > yMin && y < yMax) {
+                const [posX, posY] = this.toCanvas(x, y);
                 if (move) this.graphic.moveTo(posX, posY);
                 else this.graphic.lineTo(posX, posY);
                 move = false;
@@ -112,6 +133,9 @@ export default class Polynomial extends Component {
                 move = true;
             }
         }
+
+        this.graphic.hitArea = this.graphic.getBounds();
+
         this.coordinates.forEach(c => c.removeFromParent());
         this.coordinates = this.getSketchPoints().map(c => 
             new Coordinate(this.trygraph, ...c, {
