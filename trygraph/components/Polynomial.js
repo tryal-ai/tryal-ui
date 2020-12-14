@@ -49,7 +49,10 @@ export default class Polynomial extends Component {
     }
 
     scaleX(factor) {
-        return this.coefficients.map((v, i) => v * Math.pow(factor, i));
+        const actualFactor = Math.pow(factor, this.coefficients.length - 1);
+        this.coefficients = this.coefficients.map((v, i) => v * Math.pow((1 / actualFactor), i));
+        this.draw();
+        this.trygraph.target.changeRect(this.graphic.getBounds());
     }
 
     scaleY(factor) {
@@ -125,7 +128,7 @@ export default class Polynomial extends Component {
     //Handlers
     mouseDown() {
         this.options.color = 0xFF0000;
-        this.trygraph.target.focus(this.graphic.getBounds());
+        this.trygraph.target.focus(this.graphic.getBounds(), f => this.scaleX(f));
         this.draw();
     }
 
@@ -142,7 +145,7 @@ export default class Polynomial extends Component {
         );
         this.coefficients = this.translate(offset[0], -offset[1]);
         this.draw();
-        this.trygraph.target.focus(this.graphic.getBounds());
+        this.trygraph.target.changeRect(this.graphic.getBounds());
     }
     
 }

@@ -40,7 +40,7 @@ export default class GraphingPaper {
             }));
         
         //TODO: Remove this curve
-        this.example = new Polynomial(this.trygraph, [1, 1, 0, -3], {
+        this.example = new Polynomial(this.trygraph, [1, 0, -3], {
             resolution: 200,
         });
     }

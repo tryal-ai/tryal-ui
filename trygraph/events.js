@@ -21,3 +21,8 @@ export const onhold = (obj, down, up) => {
     obj.on('mouseup', up);
     obj.on('mouseout', up);
 }
+
+export const oncursor = (obj, on, off) => {
+    obj.on('mouseover', on);
+    obj.on('mouseout', off);
+}

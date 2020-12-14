@@ -69,7 +69,6 @@ export default class TryGraph {
     }
     
     setCursor(cursor) {
-        console.log(`setting cursor to ${cursor}`);
         this.app.view.parentElement.style.cursor = cursor;
     }
 
