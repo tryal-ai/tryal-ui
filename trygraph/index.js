@@ -3,9 +3,12 @@ import {get} from 'svelte/store';
 import GraphingPaper from './papers/GraphingPaper';
 import BoundBox from './components/BoundBox';
 import ReferenceFrame from './papers/ReferenceFrame';
+import Menu from './components/Menu.svelte';
+import Slider from './components/Slider.svelte';
+import InteractiveLayer from './Layers/InteractiveLayer';
 
 export default class TryGraph {
-    constructor(canvas, width, data = {}) {
+    constructor(canvas, overlay, width, data = {}) {
         //Create a pixi application
         this.app = new Application({
             view: canvas,
@@ -14,6 +17,7 @@ export default class TryGraph {
             height: get(width),
             resizeTo: canvas,
         });
+        this.overlay = overlay;
         
         //Set crosshair on hover
         this.setCursor('crosshair');
@@ -23,8 +27,8 @@ export default class TryGraph {
             x_range: [-10, 10],
             y_range: [-10, 10],
             //limits dictate what the reported bounds are by the reference frame
-            x_limit: [-20, 20], 
-            y_limit: [-20, 20],
+            x_limit: [-10, 10], 
+            y_limit: [-10, 10],
             origin: [0, 0],
         });
         
@@ -38,12 +42,21 @@ export default class TryGraph {
         
         //Create the paper
         this.paper = new GraphingPaper(this, {
-            x_range: [-20, 20],
-            y_range: [-20, 20],
+            x_range: [-10, 10],
+            y_range: [-10, 10],
             origin: [0, 0],
             major_tick: 1,
             minor_tick: 0.2,
             scale: 'even'
+        });
+
+        this.interactiveLayer = new InteractiveLayer(this, {});
+
+        this.menu = new Menu({
+            target: overlay,
+            props: {
+                functions: this.interactiveLayer.getActions(),
+            }
         });
 
         //Subscribe to changes in size
@@ -61,7 +74,8 @@ export default class TryGraph {
     
     draw(fixFrame = false) {
         if (!fixFrame) this.reference.compute();
-        this.paper.draw(fixFrame);
+        this.paper.draw();
+        this.interactiveLayer.draw();
     }
     
     getDimensions() {

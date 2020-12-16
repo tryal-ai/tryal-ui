@@ -26,3 +26,10 @@ export const oncursor = (obj, on, off) => {
     obj.on('mouseover', on);
     obj.on('mouseout', off);
 }
+
+export const onhover = (obj, on) => {
+    obj.on('mouseover', () => {
+        obj.on('mousemove', on);
+        obj.on('mouseout', () => obj.removeListener('mousemove', on));
+    });
+}

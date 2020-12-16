@@ -8,6 +8,7 @@ import {ondrag, onhold} from 'trygraph/events';
 
 import Component from './Component';
 import Coordinate from './Coordinate';
+import Slider from './Slider.svelte';
 
 export default class Polynomial extends Component {
     constructor(trygraph, coeffs, options = {}) {
@@ -128,7 +129,24 @@ export default class Polynomial extends Component {
     //Handlers
     mouseDown() {
         this.options.color = 0xFF0000;
-        this.trygraph.target.focus(this.graphic.getBounds(), f => this.scaleX(f));
+        if (this.coefficients.length > 2) this.trygraph.target.focus(this.graphic.getBounds(), f => this.scaleX(f));
+        if (this.coefficients.length == 2 || this.coefficients.length > 3) {
+            if (this.trygraph.slider) this.trygraph.slider.$destroy();
+            this.trygraph.slider = new Slider({
+                target: this.trygraph.overlay,
+                props: {
+                    min: -100,
+                    max: 100,
+                    value: this.coefficients[1] * 10,
+                    valueChanged: (v) => this.sliderChanged(v),
+                },
+            });
+        } 
+        this.draw();
+    }
+
+    sliderChanged(v) {
+        this.coefficients[1] = v / 10;
         this.draw();
     }
 

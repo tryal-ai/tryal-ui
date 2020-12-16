@@ -1,4 +1,6 @@
 import { ondrag } from 'trygraph/events';
+import Tooltip from '../components/Tooltip';
+import { onhover } from '../events';
 // We use a scale factor on 0.9 on the ratio just to trim it down into frame
 const computeWidthHeight = (options, width, height) => {
     if (!options.scale || options.scale === 'fit') return [
@@ -33,14 +35,24 @@ export default class ReferenceFrame {
         this.xLimit = options.x_limit ? options.x_limit : options.x_range;
         this.yLimit = options.y_limit ? options.y_limit : options.y_range;
         
+        
         //Compute the reference frame
         this.compute();
+        this.zoom = 1;
+
+        //console.log(this.toRelRef(0, 0));
+        onhover(trygraph, event => {
+            if (this.tooltip) {
+                this.tooltip.removeFromParent();
+            }
+            const point = this.toRef(event.data.originalEvent.offsetX, event.data.originalEvent.offsetY);
+            this.tooltip = new Tooltip(trygraph, ...point, `(${Math.round(point[0] * 10) / 10}, ${Math.round(point[1] * 10) / 10})`, {});
+        });
 
         //Create a drag handler 
         ondrag(trygraph, e => this.mouseMove(e));
         trygraph.addGlobalListener('wheel', e => this.mouseScroll(e));
         //Set zoom to default 1
-        this.zoom = 1;
     }
     
     compute(options) {
@@ -78,9 +90,15 @@ export default class ReferenceFrame {
 
     //convert a cartesian coordinate to a canvas space coordinate
     toCanvas(x, y) {
-        const out = [(x * this.xRatio) + this.xOffset, this.yOffset + ((-y) * this.yRatio)]
+        const out = [(x * this.xRatio) + this.xOffset, ((-y) * this.yRatio) + this.yOffset]
             .map(v => this.zoom * v);
         return out;
+    }
+
+    toRef(x, y) {
+        return [
+            (x - this.xOffset) / this.xRatio, 
+            (-(y - this.yOffset) / this.yRatio)]
     }
 
     //convert a canvas space coordinate to a cartesian grid coordinate
@@ -126,5 +144,7 @@ export default class ReferenceFrame {
         this.yOffset += event.data.originalEvent.movementY;
         this.trygraph.draw(true);
         this.trygraph.target.clearFocus();
+        console.log(this.trygraph);
+        if (this.trygraph.slider) this.trygraph.slider.$destroy();
     }
 }

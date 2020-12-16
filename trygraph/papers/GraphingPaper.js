@@ -1,7 +1,5 @@
-import ReferenceFrame from './ReferenceFrame';
 import Line from 'trygraph/components/Line';
 import Text from 'trygraph/components/Text';
-import Polynomial from 'trygraph/components/Polynomial';
 
 const computeRange = (range, minor_tick) => {
     const lines = ((range[1] - range[0]) / minor_tick) + 1;
@@ -40,9 +38,9 @@ export default class GraphingPaper {
             }));
         
         //TODO: Remove this curve
-        this.example = new Polynomial(this.trygraph, [1, 0, -3], {
-            resolution: 200,
-        });
+        //this.example = new Polynomial(this.trygraph, [1, 0, -3], {
+        //    resolution: 200,
+        //});
     }
     
     draw() {
@@ -51,6 +49,6 @@ export default class GraphingPaper {
         this.x_labels.forEach(l => l.draw());
         this.y_labels.forEach(l => l.draw());
         //TODO: Remove redrawing the curve
-        this.example.draw();
+        //this.example.draw();
     }
 }

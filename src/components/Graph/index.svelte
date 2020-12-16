@@ -2,16 +2,19 @@
     import { onMount } from 'svelte';
     import { width, updateWidth } from './width.js';
     import TryGraph from 'trygraph';
+    
     import logo from 'assets/logo_icon.png';
     import tryGraphLogo from 'assets/trygraph_logo.png';
+
     let container = null;
     let canvas = null;
     let tryGraph = null;
+    let overlay = null;
 
     onMount(() => {
         updateWidth(container);
         window.addEventListener('resize', () => updateWidth(container));
-        tryGraph = new TryGraph(canvas, width, {});
+        tryGraph = new TryGraph(canvas, container, width, {});
     });
 </script>
 
@@ -36,6 +39,7 @@
     div {
         max-width: 800px;
         margin: 0 auto;
+        position: relative;
     }
     canvas {
         border: 1px solid #000;
