@@ -34,6 +34,11 @@ export default class InteractiveLayer {
     }
 
     draw() {
+        this.removeDeleted();
         this.elements.forEach(e => e.draw());
+    }
+
+    removeDeleted() {
+        this.elements = this.elements.filter(e => !e.deleted);
     }
 }

@@ -141,7 +141,8 @@ export default class Polynomial extends Component {
                     valueChanged: (v) => this.sliderChanged(v),
                 },
             });
-        } 
+        }
+        document.body.addEventListener('keydown', e => this.keydown(e));
         this.draw();
     }
 
@@ -165,5 +166,26 @@ export default class Polynomial extends Component {
         this.draw();
         this.trygraph.target.changeRect(this.graphic.getBounds());
     }
-    
+
+    keydown(event) {
+        if (event.code === "Delete") {
+            document.body.addEventListener('keydown', (e) => this.keydown(e));
+            this.delete();
+        }
+    }
+
+    delete() {
+        //mark as deleted
+        this.deleted = true;
+        this.graphic.clear();
+        this.removeFromParent();
+        if (this.trygraph.slider) {
+            this.trygraph.slider.$destroy();
+            this.trygraph.slider = null;
+        }
+        this.trygraph.target.clearFocus();
+        this.coordinates.forEach(c => c.removeFromParent());
+        //redraw entire frame
+        this.trygraph.draw();
+    }
 }

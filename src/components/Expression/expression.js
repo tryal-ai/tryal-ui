@@ -134,18 +134,13 @@ const builders = {
 
 
 const build = data => {
-    if (!data || !data.type) {
-        console.log(data);
-    }
     return builders[data.type](data);
 }
 
 
 export const getComponent = expr => {
     try {
-        console.log(expr);
         const result = parse(expr);
-        console.log(result);
         const component = build(result);
         return component;
     } catch(err) {

@@ -40,7 +40,6 @@ export default class ReferenceFrame {
         this.compute();
         this.zoom = 1;
 
-        //console.log(this.toRelRef(0, 0));
         onhover(trygraph, event => {
             if (this.tooltip) {
                 this.tooltip.removeFromParent();
@@ -144,7 +143,6 @@ export default class ReferenceFrame {
         this.yOffset += event.data.originalEvent.movementY;
         this.trygraph.draw(true);
         this.trygraph.target.clearFocus();
-        console.log(this.trygraph);
         if (this.trygraph.slider) this.trygraph.slider.$destroy();
     }
 }
