@@ -1,4 +1,4 @@
-name: TryalAI Web Master branch test and build
+name: UI Library Build and Release workflow
 
 on:
   push:
@@ -15,9 +15,23 @@ jobs:
       run: npm install
     - name: Test server for errors
       run: npm run build
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.0
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: tryalui.js
-        path: ./build/main.js
-        warn: Could not find the resulting build artifact
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./build/main.js
+        asset_name: tryalui.js
+        asset_content_type: text/javascript
