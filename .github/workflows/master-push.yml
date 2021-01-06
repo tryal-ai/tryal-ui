@@ -15,8 +15,6 @@ jobs:
       run: npm install
     - name: Test server for errors
       run: npm run build
-    - name: Create release
-      run: echo "::set-env name={tryalui_version}::{`cat VERSION`}"
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -24,7 +22,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
-        release_name: Release `echo $tryalui_version`
+        release_name: Release v`cat VERSION`
         draft: false
         prerelease: false
     - name: Upload Release Asset
