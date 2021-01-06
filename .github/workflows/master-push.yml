@@ -1,0 +1,23 @@
+name: TryalAI Web Master branch test and build
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the repo...
+      uses: actions/checkout@v2
+    #Install dependencies
+    - name: Install key dependencies
+      run: npm install
+    - name: Test server for errors
+      run: npm run build
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.0
+      with:
+        name: tryalui.js
+        path: ./build/main.js
+        warn: Could not find the resulting build artifact
