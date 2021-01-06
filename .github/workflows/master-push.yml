@@ -15,14 +15,19 @@ jobs:
       run: npm install
     - name: Test server for errors
       run: npm run build
+    - name: Read VERSION file
+      id: version
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: ./VERSION
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: "`cat VERSION`"
-        release_name: Release v`cat VERSION`
+        tag_name: ${{ steps.version.outputs.content }}
+        release_name: Release v${{ steps.version.outputs.content }}
         draft: false
         prerelease: false
     - name: Upload Release Asset
