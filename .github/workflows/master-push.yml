@@ -40,3 +40,12 @@ jobs:
         asset_path: ./build/main.js
         asset_name: tryalui.min.js
         asset_content_type: text/javascript
+    - name: install s3cmd
+      run: apt install s3cmd -y
+    - name: Upload latest script
+      run: s3cmd --access_key=${{ secrets.DO_ACCESS_KEY }} --secret_key=${{ secrets.DO_SECRET_KEY }} --region=${{ secrets.DO_REGION }} --host=${{ secrets.DO_HOST }} --acl-public --host-bucket="${{ secrets.DO_TARGET }}" put ./build/main.js s3://${{ secrets.DO_BUCKET }}/tryalui/tryalui-latest.min.js
+    - name: Upload versioned script
+      run: s3cmd --access_key=${{ secrets.DO_ACCESS_KEY }} --secret_key=${{ secrets.DO_SECRET_KEY }} --region=${{ secrets.DO_REGION }} --host=${{ secrets.DO_HOST }} --acl-public --host-bucket="${{ secrets.DO_TARGET }}" put ./build/main.js s3://${{ secrets.DO_BUCKET }}/tryalui/tryalui-v${{ steps.version.outputs.content }}.min.js
+    - name: Upload latest version
+      run: s3cmd --access_key=${{ secrets.DO_ACCESS_KEY }} --secret_key=${{ secrets.DO_SECRET_KEY }} --region=${{ secrets.DO_REGION }} --host=${{ secrets.DO_HOST }} --acl-public --host-bucket="${{ secrets.DO_TARGET }}" put VERSION s3://${{ secrets.DO_BUCKET }}/tryalui/VERSION
+    
