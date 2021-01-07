@@ -1,21 +1,65 @@
 <html>
     <head>
         <title>Tryal.AI UI Library Demo</title>
+        <style>
+            body {
+                color: #fff;
+                background: linear-gradient(180deg, #113651, #0f3c37);
+                min-height: 100vh;
+                height: 100%;
+                overflow-x: hidden;
+                width: 100%;
+                font-family: 'Mulish', sans-serif;
+            }
+            .gutter {
+                margin: 0 auto;
+                padding-top: 50px;
+                width: min(70vw, 900px);
+                padding-bottom: 100px;
+            }
+        </style>
     </head>
     <body>
         <!--Anything above here-->
-        
-        <!--A target container in which you write custom HTML elements-->
-        <!--Once the webpage is loaded, our javascript will take over, and replace these elements with
-        their respective tryal elements-->
-        <div id="tryalui">
-            <!--Tryal Workings is literally just a workings field-->
-            <Tryal-Workings></Tryal-Workings>
-            <!--Tryal Graph is a graph manipulation and drawing tool-->
-            <Tryal-Graph></Tryal-Graph>
+        <div class="gutter">
+            <h1>Research @ Tryal.AI</h1>
+            <p>
+                This demo is designed to show Tryal.AI's new UI library designed for collecting student workings
+                in a way that allows students to clearly visualise the information they're submitting. The idea is
+                that students should see in real time what the workings are they are creating and create an agreed 
+                semantic between the user and backend services.
+            </p>
+            <p>
+                By showing users what we think they mean in real-time as they type, we allow them to understand
+                what we're going to interpret their answers (and workings) as when we receive them. Tryal UI is
+                backed up by a new powerful API service (coming soon) that will be capable of taking the data input
+                via Tryal UI, interpret it and then mark it.
+            </p>
+            <!--A target container in which you write custom HTML elements-->
+            <!--Once the webpage is loaded, our javascript will take over, and replace these elements with
+            their respective tryal elements-->
+            <div id="tryalui">
+                <h2>Tryal Workings</h2>
+                <p>
+                    The Tryal Workings is our attempt at written workings, typing mathematical inputs in here
+                    will transform them real time into maths notation (when they're valid mathematical expressions).
+                    Try by typing "4+3=7" in 
+                </p>
+                <p>Note by clicking "numerical" you can change this field into text</p>
+                <!--Tryal Workings is literally just a workings field-->
+                <Tryal-Workings></Tryal-Workings>
+                <h2>Tryal Graph</h2>
+                <p>
+                    Tryal Graph is built on top of the graphical technology stack we use internally for the Tryal core.
+                    It allows students to manipulate and draw graphical elements. We then translate this back into a set
+                    of datapoints that can be used to assess whether a student has drawn the desired answer 
+                </p>
+                <!--Tryal Graph is a graph manipulation and drawing tool-->
+                <Tryal-Graph></Tryal-Graph>
+            </div>
         </div>
                 
-        <script src="https://cdn.jsdelivr.net/gh/tryal-ai/tryal-ui/dist/tryalui.min.js"></script>
+        <script src="https://cdn.tryal.ai/tryalui/tryalui-latest.min.js"></script>
         <!--Anything below here-->
     </body>
 </html>

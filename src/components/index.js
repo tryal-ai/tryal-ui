@@ -4,9 +4,9 @@ import Graph from './Graph';
 import Workings from './Workings.svelte';
 import Session from './Session.svelte';
 export default {
-    Watermark,
-    Line,
     Graph,
-    Workings,
+    Line,
     Session,
+    Watermark,
+    Workings,
 }

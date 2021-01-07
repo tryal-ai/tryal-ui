@@ -26,5 +26,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
     window.tryalui = comps;
 })
     
-    
+export default components    
 
