@@ -95,9 +95,6 @@ module.exports = env => {
                 // both options are optional
                 filename: '[name].css',
             }),
-            new CopyPlugin([
-                './src/index.html',
-            ]),
             new CompressionPlugin({
                 test: /\.(css|js)$/
             }),
