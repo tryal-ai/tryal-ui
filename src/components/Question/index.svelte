@@ -5,7 +5,7 @@
     import Multichoice from 'components/Multichoice.svelte';
     import Image from 'components/Image.svelte';
     import Graph from 'components/Graph';
-    import body from './question.js';
+    export let body = [];
 
     //temporary example question
     //export let body = [];
