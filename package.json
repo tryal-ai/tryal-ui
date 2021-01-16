@@ -34,6 +34,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "katex": "^0.12.0",
     "mathjax": "^3.1.2",
     "mathml-elements": "^0.3.0",
     "pegjs": "^0.10.0",

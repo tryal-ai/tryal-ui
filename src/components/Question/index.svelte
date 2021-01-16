@@ -5,10 +5,10 @@
     import Multichoice from 'components/Multichoice.svelte';
     import Image from 'components/Image.svelte';
     import Graph from 'components/Graph';
-
-    //temporary example question
     import body from './question.js';
 
+    //temporary example question
+    //export let body = [];
     let unsupported = false;
 
 </script>
