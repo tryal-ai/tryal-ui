@@ -7,7 +7,7 @@ module.exports = env => {
         name: 'tryal-ui',
         mode,
         target: 'web',
-        entry: path.resolve(__dirname, './src/index.js'),
+        entry: path.resolve(__dirname, './src/components/index.js'),
         output: {
             path: path.resolve(__dirname),
             filename: 'index.js'
