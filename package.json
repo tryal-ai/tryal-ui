@@ -9,7 +9,7 @@
     "build": "rm -rf ./build && npx webpack",
     "dist": "rm -rf ./dist && npx webpack --config webpack.dist.config.js",
     "package": "rm -rf ./build && npx webpack --env.MODE=production --env.CSS",
-    "prepare": "npm install && npm run dist && rm -rf ./node_modules"
+    "prepare": "npm run dist"
   },
   "repository": {
     "type": "git",
