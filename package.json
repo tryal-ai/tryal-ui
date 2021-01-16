@@ -2,12 +2,18 @@
   "name": "tryal-ui",
   "version": "1.0.0",
   "description": "Tryal.AI UI allows 3rd parties to build workings based UIs for students to practice for exams on",
-  "main": "index.js",
+  "main": "./dist/components/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "rm -rf ./build && npx webpack --watch",
     "build": "rm -rf ./build && npx webpack",
-    "package": "rm -rf ./build && npx webpack --env.MODE=production --env.CSS"
+    "dist": "rm -rf ./dist && npx webpack --config webpack.dist.config.js",
+    "package": "rm -rf ./build && npx webpack --env.MODE=production --env.CSS",
+    "prepare": "npm install && npm run dist && rm -rf ./node_modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tryal-ai/tryal-ui.git"
   },
   "author": "Adam Green",
   "license": "ISC",
