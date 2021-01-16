@@ -10,7 +10,9 @@ module.exports = env => {
         entry: path.resolve(__dirname, './src/components/index.js'),
         output: {
             path: path.resolve(__dirname),
-            filename: 'index.js'
+            filename: 'index.js',
+            library: '',
+            libraryTarget: 'commonjs'
         },
         resolve: {
             alias: {

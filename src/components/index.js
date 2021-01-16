@@ -4,12 +4,10 @@ import Graph from './Graph';
 import Workings from './Workings.svelte';
 import Session from './Session.svelte';
 console.log("Finished loading components...");
-const components = {
+export default {
     Graph,
     Line,
     Session,
     Watermark,
     Workings,
 }
-module.exports = components;
-//export default components;
