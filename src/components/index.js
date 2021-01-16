@@ -12,4 +12,4 @@ const components = {
     Workings,
 }
 module.exports = components;
-export default components;
+//export default components;
