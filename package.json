@@ -2,7 +2,7 @@
   "name": "tryal-ui",
   "version": "1.0.0",
   "description": "Tryal.AI UI allows 3rd parties to build workings based UIs for students to practice for exams on",
-  "main": "./dist/components/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "rm -rf ./build && npx webpack --watch",

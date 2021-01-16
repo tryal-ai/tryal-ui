@@ -9,7 +9,7 @@ module.exports = env => {
         target: 'web',
         entry: path.resolve(__dirname, './src/components/index.js'),
         output: {
-            path: path.resolve(__dirname, './dist'),
+            path: path.resolve(__dirname),
             filename: 'index.js'
         },
         resolve: {
