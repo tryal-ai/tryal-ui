@@ -5,7 +5,7 @@
     export let value = '';
     
     export let types = ["numerical", "text"];
-    let currentType = 0;
+    export let currentType = 0;
 
     export let type = types[currentType];
 

@@ -6,6 +6,8 @@
     import logo from 'assets/logo_icon.png';
     import tryGraphLogo from 'assets/trygraph_logo.png';
 
+    export let noLogo = false;
+
     let container = null;
     let canvas = null;
     let tryGraph = null;
@@ -18,16 +20,18 @@
     });
 </script>
 
-<div class="header">
-    <img src={tryGraphLogo} alt="TryGraph Logo" />
-    <p>
-        TryGraph by 
-    </p> 
-    <img src={logo} alt="Tryal.AI Logo" /> 
-    <p>
-        Tryal.AI
-    </p>
-</div>
+{#if !noLogo}
+    <div class="header">
+        <img src={tryGraphLogo} alt="TryGraph Logo" />
+        <p>
+            TryGraph by 
+        </p> 
+        <img src={logo} alt="Tryal.AI Logo" /> 
+        <p>
+            Tryal.AI
+        </p>
+    </div>
+{/if}
 <div bind:this={container}>
     <canvas 
         width={$width}
