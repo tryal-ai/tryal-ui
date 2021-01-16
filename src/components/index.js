@@ -3,14 +3,13 @@ import Line from './Line';
 import Graph from './Graph';
 import Workings from './Workings.svelte';
 import Session from './Session.svelte';
-export const components = {
+console.log("Finished loading components...");
+const components = {
     Graph,
     Line,
     Session,
     Watermark,
     Workings,
 }
-
-console.log(components);
-
+module.exports = components;
 export default components;
