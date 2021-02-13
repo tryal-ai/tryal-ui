@@ -1,7 +1,7 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
-
+    import Text from './Text.svelte'
     export let values = [];
     export let answer = '';
 
@@ -18,7 +18,7 @@
         <div class="option" on:click={() => answer=option }>
             <label>
                 <input bind:group={answer} value={option} type="radio" name="answer">
-                {option}
+                <Text body={option}></Text>
             </label>
         </div>
     {/each}

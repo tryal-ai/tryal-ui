@@ -6,7 +6,7 @@
     import logo from 'assets/logo_icon.png';
     import tryGraphLogo from 'assets/trygraph_logo.png';
 
-    export let noLogo = false;
+    export let noLogo = true;
 
     let container = null;
     let canvas = null;

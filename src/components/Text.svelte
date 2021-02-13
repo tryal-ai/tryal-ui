@@ -50,5 +50,8 @@
         margin-left: 10px;
 
     }
+    div {
+        display: inline-block;
+    }
 </style>
 
