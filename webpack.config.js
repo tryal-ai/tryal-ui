@@ -98,7 +98,9 @@ module.exports = env => {
             new CompressionPlugin({
                 test: /\.(css|js)$/
             }),
-
+            new CopyPlugin([
+                { from: './example/local/index.html', to: 'index.html' }
+            ])
         ],
     };
 }

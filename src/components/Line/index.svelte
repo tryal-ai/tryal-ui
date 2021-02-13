@@ -1,20 +1,33 @@
 <script>
     import 'mathml-elements';
+
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
+
     import Expression from 'components/Expression';
     import Button from './Button';
     export let value = '';
-    
+    export let valid = true;
+
     export let types = ["numerical", "text"];
     export let currentType = 0;
 
     export let type = types[currentType];
 
+    $: valid = currentType == 1 || valid;
+
+    $: {
+        dispatch('update', {
+            valid,
+            workings: [value]
+        });
+    }
 </script>
 <div>
     {#if type === "numerical"}
-        <Expression bind:expression={value} />
+        <Expression bind:expression={value} bind:valid />
     {/if}
-    <div class="line">
+    <div class="line"  class:invalid={!valid}>
         <button on:click={() => {
             currentType = (currentType + 1) % types.length;
             type = types[currentType];
@@ -58,5 +71,9 @@
         width: 100%;
         margin-top: 15px;
         margin-bottom: 15px;
+    }
+
+    .invalid {
+        border-bottom: 1px solid #f00;
     }
 </style>

@@ -1,6 +1,16 @@
 <script>
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
+
     export let values = [];
     export let answer = '';
+
+    $: {
+        dispatch('update', {
+            valid: true,
+            workings: [answer]
+        })
+    }
 </script>
 
 <div>
