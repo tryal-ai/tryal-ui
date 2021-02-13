@@ -1,8 +1,8 @@
-name: UI Library Build and Release workflow
+name: UI Library Build and Release Beta workflow
 
 on:
   push:
-    branches: [ master ]
+    branches: [ beta ]
 
 jobs:
   build:
