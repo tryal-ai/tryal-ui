@@ -13,11 +13,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const comp = new components[name]({
                 target: display,
                 anchor: elem,
+                props: {
+                    ...elem.dataset,
+                    values: elem.dataset.values ? JSON.parse(elem.dataset.values) : null,
+                    body: elem.dataset.question ? JSON.parse(elem.dataset.question) : elem.dataset.body,
+                    question: null
+                } 
             });
-            //elem.remove();
+            elem.remove();
             return comp;
         });
-        
         return {
             name: elements,
             ...prev,
