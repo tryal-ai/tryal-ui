@@ -11,13 +11,14 @@ import Coordinate from './Coordinate';
 import Slider from './Slider.svelte';
 
 export default class Polynomial extends Component {
-    constructor(trygraph, coeffs, options = {}) {
+    constructor(trygraph, coeffs, update = () => {}, options = {}) {
         super(trygraph, new Graphics(), options);
         
         
         //Record co-ordinates and options
         this.coefficients = coeffs.reverse();
         this.coordinates = [];
+        this.update = update;
 
         //Construct the graphic
         this.addToParent();
@@ -27,6 +28,7 @@ export default class Polynomial extends Component {
         this.graphic.interactive = true;
         ondrag(this.graphic, e => this.mouseMove(e));
         onhold(this.graphic, e => this.mouseDown(e), e => this.mouseUp(e));
+        this.update();
     }
     
     func(x) {
@@ -46,6 +48,7 @@ export default class Polynomial extends Component {
                 prev.map((v, i) => v += curr[i] ? curr[i] : 0)
             );
         result[0] += y;
+        this.update();
         return result;
     }
 
@@ -54,6 +57,7 @@ export default class Polynomial extends Component {
         this.coefficients = this.coefficients.map((v, i) => v * Math.pow((1 / actualFactor), i));
         this.draw();
         this.trygraph.target.changeRect(this.graphic.getBounds());
+        this.update();
     }
 
     scaleY(factor) {
@@ -187,5 +191,14 @@ export default class Polynomial extends Component {
         this.coordinates.forEach(c => c.removeFromParent());
         //redraw entire frame
         this.trygraph.draw();
+    }
+
+    getData() {
+        return {
+            type: 'polynomial',
+            data: {
+                coefficients: this.coefficients
+            }
+        }
     }
 }

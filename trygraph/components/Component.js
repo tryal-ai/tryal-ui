@@ -44,4 +44,10 @@ export default class Component {
     getProp(key, defacto) {
         return this.options[key] ? this.options[key] : defacto; 
     }
+
+    getData() {
+        return {
+            type: 'component'
+        }
+    }
 }

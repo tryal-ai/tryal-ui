@@ -3,10 +3,15 @@ import Polynomial from '../components/Polynomial';
 import Polygon from '../components/Polygon';
 
 export default class InteractiveLayer {
-    constructor(trygraph, options = {}) {
+    constructor(trygraph, update = () => {}, options = {}) {
         this.trygraph = trygraph;
         this.options = options;
         this.elements = [];
+        this.update = update;
+    }
+
+    updated() {
+        this.update(this.elements.map(comp => comp.getData()));
     }
 
     getActions() {
@@ -26,23 +31,27 @@ export default class InteractiveLayer {
     }
 
     addLine(drawEnded = null) {
-        this.elements.push(new Polynomial(this.trygraph, [1, 0], {}));
+        this.elements.push(new Polynomial(this.trygraph, [1, 0], () => this.updated(), {}));
+        this.updated();
         if (drawEnded) drawEnded();
     }
 
     addQuadratic(drawEnded = null) {
-        this.elements.push(new Polynomial(this.trygraph, [1, 0, 0], {}));
+        this.elements.push(new Polynomial(this.trygraph, [1, 0, 0], () => this.updated(), {}));
+        this.updated();
         if (drawEnded) drawEnded();
     }
 
     addCubic(drawEnded = null) {
-        this.elements.push(new Polynomial(this.trygraph, [1, 2, 2, 0], {}));
+        this.elements.push(new Polynomial(this.trygraph, [1, 2, 2, 0], () => this.updated(), {}));
+        this.updated();
         if (drawEnded) drawEnded();
     }
 
     drawLine(drawEnded = null) {
-        const polygon = new Polygon(this.trygraph);
+        const polygon = new Polygon(this.trygraph, () => this.updated());
         this.elements.push(polygon);
+        this.updated();
         const onDown = (event) => {
             polygon.addPoint(event.data.originalEvent.offsetX, event.data.originalEvent.offsetY, true);
         };

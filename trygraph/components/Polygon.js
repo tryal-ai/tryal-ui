@@ -5,16 +5,17 @@ import {onhold} from 'trygraph/events';
 import Component from './Component';
 
 export default class Polygon extends Component {
-    constructor(trygraph, options = {}) {
+    constructor(trygraph, update = () => {}, options = {}) {
         super(trygraph, new Graphics(), options);
         
         this.coordinates = [];
         this.drawing = true;
+        this.update = update;
 
         //Construct the graphic
         this.addToParent();
         this.draw();
-
+        this.update();
         onhold(this.graphic, e => this.mouseDown(e), e => this.mouseUp(e));
     }
     
@@ -23,6 +24,7 @@ export default class Polygon extends Component {
         if (canvas) this.coordinates.push(this.trygraph.reference.toRef(x, y));
         else this.coordinates.push([x, y]);
         this.draw();
+        this.update();
     }
 
     endDrawing() {
@@ -79,5 +81,14 @@ export default class Polygon extends Component {
         this.coordinates.forEach(c => c.removeFromParent());
         //redraw entire frame
         this.trygraph.draw();
+    }
+
+    getData() {
+        return {
+            type: 'polygon',
+            data: {
+                coordinates: this.coordinates
+            }
+        }
     }
 }
