@@ -342,6 +342,15 @@ import { Graph } from 'tryal-ui';
 
 new Graph({
     target: document.getElementById("my-id"),
+    props: {
+        data: { //this data is now supplied by tryal as part of the Question markup
+            paper: {
+                type: 'graphing',
+            },
+            x_range: [-10, 10],
+            y_range: [-10, 10]
+        }
+    }
 });
 
 ```
