@@ -44,7 +44,7 @@ export default class ReferenceFrame {
             if (this.tooltip) {
                 this.tooltip.removeFromParent();
             }
-            const point = this.toRef(event.data.originalEvent.offsetX, event.data.originalEvent.offsetY);
+            const point = this.toRef(event.data.originalEvent.offsetX / this.zoom, event.data.originalEvent.offsetY / this.zoom);
             this.tooltip = new Tooltip(trygraph, ...point, `(${Math.round(point[0] * 10) / 10}, ${Math.round(point[1] * 10) / 10})`, {});
         });
 
@@ -84,7 +84,6 @@ export default class ReferenceFrame {
         //and to get it to the position within that frame
         this.xOffset = viewToFrameOffset[0] + frameToOriginOffset[0];
         this.yOffset = viewToFrameOffset[1] + frameToOriginOffset[1];
-
     }
 
     //convert a cartesian coordinate to a canvas space coordinate
@@ -114,6 +113,7 @@ export default class ReferenceFrame {
     //Set the zoom of this reference frame (zoom scales all coordinates)
     setZoom(zoom) {
         this.zoom = zoom;
+        this.compute();
     }
 
     //Get the suggested render limits for cartesian space, e.g. although we render x from -10 to 10 on canvas
