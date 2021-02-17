@@ -1,22 +1,42 @@
 <script>
-    import { onMount } from 'svelte';
+    import { onMount, createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
+
     import { width, updateWidth } from './width.js';
     import TryGraph from 'trygraph';
     
     import logo from 'assets/logo_icon.png';
     import tryGraphLogo from 'assets/trygraph_logo.png';
 
-    export let noLogo = false;
+    export let noLogo = true;
+    export let data = {
+        x_range: [-10, 10],
+        y_range: [-10, 10],
+        paper: {
+            type: 'graphing',
+            major_tick: 1,
+            minor_tick: 0.2
+        },
+        update: (x) => console.log(x)
+    };
 
     let container = null;
     let canvas = null;
     let tryGraph = null;
     let overlay = null;
 
+
+
     onMount(() => {
         updateWidth(container);
         window.addEventListener('resize', () => updateWidth(container));
-        tryGraph = new TryGraph(canvas, container, width, {});
+        tryGraph = new TryGraph(canvas, container, width, {
+            ...data,
+            update: (data) => dispatch('update', {
+                valid: true,
+                workings: data
+            })
+        });
     });
 </script>
 

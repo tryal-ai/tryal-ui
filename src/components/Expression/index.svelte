@@ -5,6 +5,10 @@
     
     export let expression = '';
     let lastValid = '';
+    export let valid = expression == lastValid;
+
+    $: valid = lastValid == expression;
+
     let comp = null;
     $: { 
         if (expression === '') comp = null;

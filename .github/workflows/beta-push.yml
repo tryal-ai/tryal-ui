@@ -1,0 +1,49 @@
+name: UI Library Build and Release Beta workflow
+
+on:
+  push:
+    branches: [ beta ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the repo...
+      uses: actions/checkout@v2
+    #Install dependencies
+    - name: Install key dependencies
+      run: npm install
+    - name: Build file
+      run: npm run package
+    - name: Read VERSION file
+      id: version
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: ./VERSION
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.version.outputs.content }}-beta
+        release_name: Release v${{ steps.version.outputs.content }} (Beta)
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./build/main.js
+        asset_name: tryalui.min.js
+        asset_content_type: text/javascript
+    - name: install s3cmd
+      run: sudo apt install s3cmd -y
+    - name: Upload latest script
+      run: s3cmd --access_key=${{ secrets.DO_ACCESS_KEY }} --secret_key=${{ secrets.DO_SECRET_KEY }} --region=${{ secrets.DO_REGION }} --host=${{ secrets.DO_HOST }} --acl-public --host-bucket="${{ secrets.DO_TARGET }}" put ./build/main.js s3://${{ secrets.DO_BUCKET }}/tryalui/tryalui-beta.min.js
+    - name: Upload versioned script
+      run: s3cmd --access_key=${{ secrets.DO_ACCESS_KEY }} --secret_key=${{ secrets.DO_SECRET_KEY }} --region=${{ secrets.DO_REGION }} --host=${{ secrets.DO_HOST }} --acl-public --host-bucket="${{ secrets.DO_TARGET }}" put ./build/main.js s3://${{ secrets.DO_BUCKET }}/tryalui/tryalui-v${{ steps.version.outputs.content }}-beta.min.js
+    

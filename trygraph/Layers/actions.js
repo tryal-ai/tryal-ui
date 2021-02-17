@@ -21,10 +21,10 @@ export const cubicAction = {
     text: "x^3",
 }
 
-export const drawIcon = {
+export const drawAction = {
     action: () => console.log("Start Drawing"),
     image: DrawIcon,
     text: "draw",
 }
 
-export default [linearAction, quadAction, cubicAction, drawIcon];
+export default [linearAction, quadAction, cubicAction, drawAction];

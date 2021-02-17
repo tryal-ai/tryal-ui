@@ -5,7 +5,11 @@ export default class Component {
         this.options = options ? options : {};
     }
 
-    toCanvas(x, y) {
+    toCanvas(x, y, dump = false) {
+        if (dump) {
+            console.log(x);
+            console.log(y);
+        }
         //Allows for absolute co-ordinate system rather than reference system
         if (this.options.refOff) return [x, y];
         return this.trygraph.reference.toCanvas(x, y);
@@ -39,5 +43,11 @@ export default class Component {
 
     getProp(key, defacto) {
         return this.options[key] ? this.options[key] : defacto; 
+    }
+
+    getData() {
+        return {
+            type: 'component'
+        }
     }
 }
