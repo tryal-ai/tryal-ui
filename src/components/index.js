@@ -7,6 +7,7 @@ export {default as Image} from './Image.svelte';
 export {default as Text} from './Text.svelte';
 export {default as List} from './List.svelte';
 export {default as Multichoice} from './Multichoice.svelte';
+export {parser} from 'trygrammar/trygrammar.pegjs';
 
 import Watermark from './Watermark.svelte';
 import Line from './Line';
@@ -17,6 +18,7 @@ import Image from './Image.svelte';
 import Text from './Text.svelte';
 import List from './List.svelte';
 import Multichoice from './Multichoice.svelte';
+import {parser} from 'trygrammar/trygrammar.pegjs';
 
 export default {
     Graph,
@@ -28,4 +30,5 @@ export default {
     Text,
     List,
     Multichoice,
+    parser,
 }
