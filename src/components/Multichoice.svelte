@@ -18,7 +18,7 @@
         <div class="option" on:click={() => answer=option }>
             <label>
                 <input bind:group={answer} value={option} type="radio" name="answer">
-                <Text body={option}></Text>
+                <Text body={option} block={false}></Text>
             </label>
         </div>
     {/each}
