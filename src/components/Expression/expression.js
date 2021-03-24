@@ -137,13 +137,12 @@ const buildImplicit = data => {
 
 const buildExplicit = data => {
     const reduced = data.terms.reduce((prev, curr) => {
-        console.log(curr);
         if (curr.type === 'fraction' 
             && curr.numer.type === 'integer' 
             && curr.numer.val === 1 
             && prev.length > 0 
             && prev[prev.length - 1].type !== 'fraction') {
-            return [...prev.slice(0, prev.length - 1), {
+                return [...prev.slice(0, prev.length - 1), {
                 ...curr,
                 numer: prev[prev.length - 1],
             }]
@@ -153,7 +152,7 @@ const buildExplicit = data => {
     return {
         component: components.explicit,
         props: {
-            components: data.terms.map(t => build(t))
+            components: reduced.map(t => build(t))
         }
     }
 }
