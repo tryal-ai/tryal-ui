@@ -1,6 +1,6 @@
 import { Graphics } from 'pixi.js';
 
-import {onhold} from 'trygraph/events';
+import {onhold} from '../events';
 
 import Component from './Component';
 
