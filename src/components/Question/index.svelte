@@ -39,7 +39,7 @@
 {#if !unsupported}
     {#each body as line}
         {#if typeof line == 'string'}
-            <Text body={line} />
+            <Text body={line} block={true} />
         {:else if line.type == 'numeric'}
             <Workings on:update={(event) => {
                 if (Object.keys(line).includes('part')) {
