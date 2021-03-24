@@ -12,7 +12,7 @@
     $: { 
         if (expression === '') comp = null;
         else {
-            const expr = expression.replace(' ', '');
+            const expr = expression.replaceAll(' ', '');
             const component = getComponent(expr);
             if (component) {
                 lastValid = expression;
