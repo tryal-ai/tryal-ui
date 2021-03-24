@@ -137,7 +137,12 @@ const buildImplicit = data => {
 
 const buildExplicit = data => {
     const reduced = data.terms.reduce((prev, curr) => {
-        if (curr.type === 'fraction' && prev.length > 0 && prev[prev.length - 1].type !== 'fraction') {
+        console.log(curr);
+        if (curr.type === 'fraction' 
+            && curr.numer.type === 'integer' 
+            && curr.numer.val === 1 
+            && prev.length > 0 
+            && prev[prev.length - 1].type !== 'fraction') {
             return [...prev.slice(0, prev.length - 1), {
                 ...curr,
                 numer: prev[prev.length - 1],
