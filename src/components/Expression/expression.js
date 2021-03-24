@@ -182,6 +182,15 @@ const buildAddition = data => {
     }
 }
 
+const buildNegation = data => {
+    return {
+        component: components.negation,
+        props: {
+            component: build(data),
+        }
+    }
+}
+
 const buildEquation = data => {
     return {
         component: components.equation,
@@ -204,6 +213,7 @@ const builders = {
     'multiplication': buildMultiplication,
     'fraction': buildFraction,
     'addition': buildAddition,
+    'negation': buildNegation,
     'equation': buildEquation,
 }
 
