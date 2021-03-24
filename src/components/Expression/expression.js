@@ -2,6 +2,13 @@ import {parse} from 'trygrammar'
 import * as components from './types';
 
 const buildFloat = data => {
+    if (data.power) {
+        return build({
+            mantissa: { ...data, power: null },
+            exponent: data.power,
+            type: 'power' 
+        })
+    }
     return {
         component: components.float,
         props: {
@@ -11,6 +18,13 @@ const buildFloat = data => {
 }
 
 const buildInteger = data => {
+    if (data.power) {
+        return build({
+            mantissa: { ...data, power: null },
+            exponent: data.power,
+            type: 'power' 
+        })
+    }
     return {
         component: components.integer,
         props: {
