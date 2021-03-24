@@ -1,4 +1,4 @@
-import {parse} from 'trygrammar/trygrammar.pegjs'
+import {parse} from 'trygrammar'
 import * as components from './types';
 
 const buildFloat = data => {

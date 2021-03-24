@@ -23,8 +23,7 @@ module.exports = env => {
                 styles: path.resolve('src', 'styles'),
                 lib: path.resolve('src', 'lib'),
                 assets: path.resolve('src', 'assets'),
-                trygraph: path.resolve('trygraph'),
-                trygrammar: path.resolve('trygrammar')
+                trygraph: path.resolve('trygraph')
             },
             extensions: ['.mjs', '.js', '.svelte'],
             mainFields: ['svelte', 'browser', 'module', 'main']
