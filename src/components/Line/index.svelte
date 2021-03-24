@@ -67,7 +67,7 @@
         border: none;
         font-size: 20px;
         margin-top: 5px;
-        width: 90%;
+        width: 85%;
     }
     div {
         width: 100%;
