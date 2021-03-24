@@ -2,7 +2,7 @@
     export let value = 0;
 
     let symbols = {
-        "PI": "&#x03a0;",
+        "PI": "&#960;",
         "EPSILON": "&#x3b5;",
         "THETA": "&#x3b8;"
     }
