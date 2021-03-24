@@ -230,6 +230,6 @@ export const getComponent = expr => {
         const component = build(result);
         return component;
     } catch(err) {
-        //console.log(err);
+        console.log(err);
     }
 }
