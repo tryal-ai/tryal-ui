@@ -10,6 +10,9 @@ module.exports = env => {
     return {
         name: 'tryal-ui',
         mode,
+        externals: {
+            'svelte/internal': 'svelteInternal',
+        },
         target: 'web',
         entry: path.resolve(__dirname, './src/index.js'),
         output: {
