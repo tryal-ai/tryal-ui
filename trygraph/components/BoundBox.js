@@ -1,6 +1,6 @@
 import Component from "./Component";
 import { Graphics } from "pixi.js";
-import {oncursor, ondrag} from 'trygraph/events';
+import {oncursor, ondrag} from '../events';
 
 class Handle extends Component {
     constructor(trygraph, x, y, options) {

@@ -4,7 +4,7 @@ import {
     change_of_sign,
     get_coordinates
 } from 'trygraph/utils'; 
-import {ondrag, onhold} from 'trygraph/events';
+import {ondrag, onhold} from '../events';
 
 import Component from './Component';
 import Coordinate from './Coordinate';

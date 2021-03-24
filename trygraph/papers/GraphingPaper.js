@@ -1,5 +1,5 @@
-import Line from 'trygraph/components/Line';
-import Text from 'trygraph/components/Text';
+import Line from '../components/Line';
+import Text from '../components/Text';
 
 const computeRange = (range, minor_tick) => {
     const lines = ((range[1] - range[0]) / minor_tick) + 1;

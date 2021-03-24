@@ -1,5 +1,5 @@
 <script>
-    import Expression from 'components/Expression';
+    import Expression from '../Expression';
     export let func = "SQRT(x)";
     export let value = "";
 </script>

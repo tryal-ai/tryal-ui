@@ -4,7 +4,7 @@
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
 
-    import Expression from 'components/Expression';
+    import Expression from '../Expression';
     import Button from './Button';
     export let value = '';
     export let valid = true;

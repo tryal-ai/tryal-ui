@@ -3,10 +3,10 @@
     const dispatch = createEventDispatcher();
 
     import { width, updateWidth } from './width.js';
-    import TryGraph from 'trygraph';
+    import TryGraph from '../../../trygraph';
     
-    import logo from 'assets/logo_icon.png';
-    import tryGraphLogo from 'assets/trygraph_logo.png';
+    import logo from '../../assets/logo_icon.png';
+    import tryGraphLogo from '../../assets/trygraph_logo.png';
 
     export let noLogo = true;
     export let data = {

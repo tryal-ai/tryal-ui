@@ -1,5 +1,5 @@
 <script>
-    import logo from 'assets/logo_icon.png';
+    import logo from '../assets/logo_icon.png';
 </script>
 
 <div>

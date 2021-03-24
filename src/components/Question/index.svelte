@@ -2,12 +2,12 @@
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
 
-    import Text from 'components/Text.svelte';
-    import Workings from 'components/Workings.svelte';
-    import List from 'components/List.svelte';
-    import Multichoice from 'components/Multichoice.svelte';
-    import Image from 'components/Image.svelte';
-    import Graph from 'components/Graph';
+    import Text from '../Text.svelte';
+    import Workings from '../Workings.svelte';
+    import List from '../List.svelte';
+    import Multichoice from '../Multichoice.svelte';
+    import Image from '../Image.svelte';
+    import Graph from '../Graph';
     
     export let body = [];
 
