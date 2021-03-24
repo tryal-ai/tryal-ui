@@ -212,11 +212,10 @@ const build = data => {
 export const getComponent = expr => {
     try {
         const result = parse(expr);
-        if (!result) return null; 
-        console.log(result);
+        if (!result) return null;
         const component = build(result);
         return component;
     } catch(err) {
-        console.log(err);
+        //console.log(err);
     }
 }
