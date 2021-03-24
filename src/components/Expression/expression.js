@@ -215,7 +215,7 @@ const buildEquation = data => {
 }
 
 const builders = {
-    'float': buildFloat,
+    'real': buildFloat,
     'integer': buildInteger,
     'greek': buildGreek,
     'term': buildTerm,
