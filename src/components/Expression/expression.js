@@ -186,7 +186,7 @@ const buildNegation = data => {
     return {
         component: components.negation,
         props: {
-            component: build(data),
+            component: build(data.val),
         }
     }
 }
