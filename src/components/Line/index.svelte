@@ -55,6 +55,7 @@
         cursor: pointer;
         margin: 10px 0;
         border-radius: 5px;
+        width: 10%;
     }
 
     .line {
@@ -66,6 +67,7 @@
         border: none;
         font-size: 20px;
         margin-top: 5px;
+        width: 90%;
     }
     div {
         width: 100%;
