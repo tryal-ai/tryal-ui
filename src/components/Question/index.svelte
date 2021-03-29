@@ -43,9 +43,9 @@
         {:else if line.type == 'numeric'}
             <Workings
                 initial={
-                    Object.keys(initial).includes('all') ? 
+                    initial && Object.keys(initial).includes('all') ? 
                         initial['all'] : 
-                        Object.keys(line).includes('part') && Object.keys(initial).includes(line['part']) ? 
+                        initial && Object.keys(line).includes('part') && Object.keys(initial).includes(line['part']) ? 
                         initial[line['part']] : 
                         null
                 }
@@ -62,9 +62,9 @@
         {:else if line.type == 'multichoice'}
             <Multichoice 
                 answer={
-                    Object.keys(initial).includes('all') ? 
+                    initial && Object.keys(initial).includes('all') ? 
                         initial['all'] : 
-                        Object.keys(line).includes('part') && Object.keys(initial).includes(line['part']) ? 
+                        initial && Object.keys(line).includes('part') && Object.keys(initial).includes(line['part']) ? 
                         initial[line['part']] : 
                         null
                 }
