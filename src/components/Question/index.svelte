@@ -47,7 +47,7 @@
                         initial['all'] : 
                         initial && Object.keys(line).includes('part') && Object.keys(initial).includes(line['part']) ? 
                         initial[line['part']] : 
-                        null
+                        [""]
                 }
                 on:update={(event) => {
                     if (Object.keys(line).includes('part')) {
@@ -66,7 +66,7 @@
                         initial['all'] : 
                         initial && Object.keys(line).includes('part') && Object.keys(initial).includes(line['part']) ? 
                         initial[line['part']] : 
-                        null
+                        ""
                 }
                 values={line.values} 
                 on:update={(event) => {
