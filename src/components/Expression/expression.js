@@ -1,7 +1,14 @@
-import {parse} from 'trygrammar/trygrammar.pegjs'
+import {parse} from 'trygrammar'
 import * as components from './types';
 
 const buildFloat = data => {
+    if (data.power) {
+        return build({
+            mantissa: { ...data, power: null },
+            exponent: data.power,
+            type: 'power' 
+        })
+    }
     return {
         component: components.float,
         props: {
@@ -11,6 +18,13 @@ const buildFloat = data => {
 }
 
 const buildInteger = data => {
+    if (data.power) {
+        return build({
+            mantissa: { ...data, power: null },
+            exponent: data.power,
+            type: 'power' 
+        })
+    }
     return {
         component: components.integer,
         props: {
@@ -137,8 +151,12 @@ const buildImplicit = data => {
 
 const buildExplicit = data => {
     const reduced = data.terms.reduce((prev, curr) => {
-        if (curr.type === 'fraction' && prev.length > 0 && prev[prev.length - 1].type !== 'fraction') {
-            return [...prev.slice(0, prev.length - 1), {
+        if (curr.type === 'fraction' 
+            && curr.numer.type === 'integer' 
+            && curr.numer.val === 1 
+            && prev.length > 0 
+            && prev[prev.length - 1].type !== 'fraction') {
+                return [...prev.slice(0, prev.length - 1), {
                 ...curr,
                 numer: prev[prev.length - 1],
             }]
@@ -148,7 +166,7 @@ const buildExplicit = data => {
     return {
         component: components.explicit,
         props: {
-            components: data.terms.map(t => build(t))
+            components: reduced.map(t => build(t))
         }
     }
 }
@@ -178,6 +196,15 @@ const buildAddition = data => {
     }
 }
 
+const buildNegation = data => {
+    return {
+        component: components.negation,
+        props: {
+            component: build(data.val),
+        }
+    }
+}
+
 const buildEquation = data => {
     return {
         component: components.equation,
@@ -188,7 +215,7 @@ const buildEquation = data => {
 }
 
 const builders = {
-    'float': buildFloat,
+    'real': buildFloat,
     'integer': buildInteger,
     'greek': buildGreek,
     'term': buildTerm,
@@ -200,6 +227,7 @@ const builders = {
     'multiplication': buildMultiplication,
     'fraction': buildFraction,
     'addition': buildAddition,
+    'negation': buildNegation,
     'equation': buildEquation,
 }
 
@@ -212,8 +240,7 @@ const build = data => {
 export const getComponent = expr => {
     try {
         const result = parse(expr);
-        if (!result) return null; 
-        console.log(result);
+        if (!result) return null;
         const component = build(result);
         return component;
     } catch(err) {

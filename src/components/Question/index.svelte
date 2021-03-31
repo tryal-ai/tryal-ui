@@ -2,15 +2,15 @@
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
 
-    import Text from 'components/Text.svelte';
-    import Workings from 'components/Workings.svelte';
-    import List from 'components/List.svelte';
-    import Multichoice from 'components/Multichoice.svelte';
-    import Image from 'components/Image.svelte';
-    import Graph from 'components/Graph';
+    import Text from '../Text.svelte';
+    import Workings from '../Workings.svelte';
+    import List from '../List.svelte';
+    import Multichoice from '../Multichoice.svelte';
+    import Image from '../Image.svelte';
+    import Graph from '../Graph';
     
     export let body = [];
-
+    export let initial = {};
     let valid = true;
     let workings = {}
 
@@ -39,35 +39,64 @@
 {#if !unsupported}
     {#each body as line}
         {#if typeof line == 'string'}
-            <Text body={line} />
+            <Text body={line} block={true} />
         {:else if line.type == 'numeric'}
-            <Workings on:update={(event) => {
-                if (Object.keys(line).includes('part')) {
-                    workings[line['part']] = event.detail;
-                } else {
-                    workings = event.detail;
+            <Workings
+                initial={
+                    initial && Object.keys(initial).includes('all') ? 
+                        initial['all'] : 
+                        initial && Object.keys(line).includes('part') && Object.keys(initial).includes(line['part']) ? 
+                        initial[line['part']] : 
+                        [""]
                 }
-            }} />
+                on:update={(event) => {
+                    if (Object.keys(line).includes('part')) {
+                        workings[line['part']] = event.detail;
+                    } else {
+                        workings = event.detail;
+                    }
+                }} 
+            />
         {:else if line.type == 'list'}
             <List values={line.values} />
         {:else if line.type == 'multichoice'}
-            <Multichoice values={line.values} on:update={(event) => {
-                if (Object.keys(line).includes('part')) {
-                    workings[line['part']] = event.detail;
-                } else {
-                    workings = event.detail;
+            <Multichoice 
+                answer={
+                    initial && Object.keys(initial).includes('all') ? 
+                        initial['all'] : 
+                        initial && Object.keys(line).includes('part') && Object.keys(initial).includes(line['part']) ? 
+                        initial[line['part']] : 
+                        ""
                 }
-            }} />
+                values={line.values} 
+                on:update={(event) => {
+                    if (Object.keys(line).includes('part')) {
+                        workings[line['part']] = event.detail;
+                    } else {
+                        workings = event.detail;
+                    }
+                }} 
+            />
         {:else if line.type == 'image'}
             <Image data={line.data} />
         {:else if line.type == 'text'}
-            <Workings text={true} on:update={(event) => {
-                if (Object.keys(line).includes('part')) {
-                    workings[line['part']] = event.detail;
-                } else {
-                    workings = event.detail;
+            <Workings
+                initial={
+                    Object.keys(initial).includes('all') ? 
+                        initial['all'] : 
+                        Object.keys(line).includes('part') && Object.keys(initial).includes(line['part']) ? 
+                        initial[line['part']] : 
+                        null
                 }
-            }} />
+                text={true} 
+                on:update={(event) => {
+                    if (Object.keys(line).includes('part')) {
+                        workings[line['part']] = event.detail;
+                    } else {
+                        workings = event.detail;
+                    }
+                }} 
+            />
         {:else if line.type == 'graph'}
             <Graph noLogo={true} />
         {/if}

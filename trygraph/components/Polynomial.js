@@ -3,8 +3,8 @@ import {
     binomial_expansion,
     change_of_sign,
     get_coordinates
-} from 'trygraph/utils'; 
-import {ondrag, onhold} from 'trygraph/events';
+} from '../utils'; 
+import {ondrag, onhold} from '../events';
 
 import Component from './Component';
 import Coordinate from './Coordinate';

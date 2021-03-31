@@ -1,5 +1,5 @@
-import { fetchJson } from 'lib/doFetch';
-import { makePublicRequest } from 'lib/requests';
+import { fetchJson } from '../doFetch';
+import { makePublicRequest } from '../requests';
 
 export async function getPaper() {
     const result = await fetchJson('http://localhost:2000/generate', makePublicRequest('post', {

@@ -1,7 +1,7 @@
-import LinearIcon from 'trygraph/assets/linear_icon.svg';
-import QuadIcon from 'trygraph/assets/quadratic_icon.svg';
-import CubicIcon from 'trygraph/assets/cubic_icon.svg';
-import DrawIcon from 'trygraph/assets/draw_icon.svg';
+import LinearIcon from '../assets/linear_icon.svg';
+import QuadIcon from '../assets/quadratic_icon.svg';
+import CubicIcon from '../assets/cubic_icon.svg';
+import DrawIcon from '../assets/draw_icon.svg';
 
 export const linearAction = {
     action: () => console.log("Add linear"),
