@@ -31,10 +31,10 @@
     "svelte-loader": "^2.13.6",
     "url-loader": "^4.1.1",
     "webpack": "^4.43.0",
+    "svelte": "^3.29.7",
     "webpack-cli": "^3.3.12"
   },
   "peerDependencies": {
-    "svelte": "^3.29.7"
   },
   "dependencies": {
     "katex": "^0.12.0",
