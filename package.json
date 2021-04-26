@@ -1,6 +1,6 @@
 {
   "name": "tryal-ui",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Tryal.AI UI allows 3rd parties to build workings based UIs for students to practice for exams on",
   "main": "index.js",
   "svelte": "src/components/index.js",
