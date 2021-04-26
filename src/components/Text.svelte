@@ -3,6 +3,7 @@
     export let body = "";
     export let block = false;
     function getBodyArrayFromString(str) {
+        if (body === "") return [];
         let latexRe = /\$(.*?)\$/g;
         const matches = [...str.matchAll(latexRe)];
         if (matches.length == 0) return [str];
