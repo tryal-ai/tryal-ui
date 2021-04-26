@@ -1,6 +1,5 @@
 <script>
     import 'mathml-elements';
-    import { fade } from 'svelte/transition';
     import {getComponent} from './expression.js';
     
     export let expression = '';
@@ -13,7 +12,8 @@
     $: { 
         if (expression === '') comp = null;
         else {
-            const component = getComponent(expression.replace(' ', ''));
+            const expr = expression.replaceAll(' ', '');
+            const component = getComponent(expr);
             if (component) {
                 lastValid = expression;
                 comp = component;
@@ -23,7 +23,7 @@
 </script>
 
 {#key comp}
-<div in:fade>
+<div>
     <math-ml>
         {#if comp}
             <svelte:component this={comp.component} {...comp.props}></svelte:component>

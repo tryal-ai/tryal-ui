@@ -1,8 +1,9 @@
 <script>
     import { onMount } from 'svelte';
     export let body = "";
-    
+    export let block = false;
     function getBodyArrayFromString(str) {
+        if (body === "") return [];
         let latexRe = /\$(.*?)\$/g;
         const matches = [...str.matchAll(latexRe)];
         if (matches.length == 0) return [str];
@@ -33,7 +34,7 @@
     <script nomodule="" src="https://unpkg.com/@navsnpm/katex-expression/dist/katex-expression/katex-expression.js"></script>
 </svelte:head>
 
-<div>
+<div class:block>
     {#each parsed as part}
         {#if typeof part == 'string'}
             <p>{part}</p>
@@ -51,6 +52,9 @@
 
     }
     div {
+        display: inline-block;
+    }
+    .block {
         display: block;
     }
 </style>

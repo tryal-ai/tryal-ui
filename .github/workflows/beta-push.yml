@@ -10,6 +10,8 @@ jobs:
     steps:
     - name: Checkout the repo...
       uses: actions/checkout@v2
+      with:
+        submodules: true
     #Install dependencies
     - name: Install key dependencies
       run: npm install

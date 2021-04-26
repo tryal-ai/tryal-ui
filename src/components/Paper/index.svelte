@@ -1,6 +1,6 @@
 <script>
-    import {paper} from 'lib/store';
-    import {getPaper} from 'lib/session';
+    import {paper} from '../../lib/store';
+    import {getPaper} from '../../lib/session';
     
     import ProgressBar from './ProgressBar.svelte';
     import Question from './Question.svelte';

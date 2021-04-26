@@ -1,8 +1,9 @@
 {
   "name": "tryal-ui",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "Tryal.AI UI allows 3rd parties to build workings based UIs for students to practice for exams on",
   "main": "index.js",
+  "svelte": "src/components/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "rm -rf ./build && npx webpack --watch",
@@ -27,11 +28,13 @@
     "sass": "^1.30.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
-    "svelte": "^3.29.7",
     "svelte-loader": "^2.13.6",
     "url-loader": "^4.1.1",
     "webpack": "^4.43.0",
+    "svelte": "^3.29.7",
     "webpack-cli": "^3.3.12"
+  },
+  "peerDependencies": {
   },
   "dependencies": {
     "katex": "^0.12.0",
@@ -39,6 +42,7 @@
     "mathml-elements": "^0.3.0",
     "pegjs": "^0.10.0",
     "pixi.js": "^5.3.3",
-    "texsvg": "^1.3.0"
+    "texsvg": "^1.3.0",
+    "trygrammar": "github:tryal-ai/trygrammar"
   }
 }

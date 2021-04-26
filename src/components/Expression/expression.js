@@ -1,7 +1,14 @@
-import {parse} from './grammar.pegjs';
+import {parse} from 'trygrammar'
 import * as components from './types';
 
 const buildFloat = data => {
+    if (data.power) {
+        return build({
+            mantissa: { ...data, power: null },
+            exponent: data.power,
+            type: 'power' 
+        })
+    }
     return {
         component: components.float,
         props: {
@@ -10,16 +17,14 @@ const buildFloat = data => {
     }
 }
 
-const buildGreek = data => {
-    return {
-        component: components.greek,
-        props: {
-            value: data.val
-        }
-    }
-}
-
 const buildInteger = data => {
+    if (data.power) {
+        return build({
+            mantissa: { ...data, power: null },
+            exponent: data.power,
+            type: 'power' 
+        })
+    }
     return {
         component: components.integer,
         props: {
@@ -28,67 +33,62 @@ const buildInteger = data => {
     }
 }
 
-const buildFraction = data => {
-    return {
-        component: components.fraction,
-        props: {
-            numerator: build(data.numer),
-            denominator: build(data.denom),
-        }
+const buildGreek = data => {
+    if (data.power) {
+        return build({
+            mantissa: { ...data, power: null },
+            exponent: data.power,
+            type: 'power' 
+        })
     }
-}
-
-const buildNegation = data => {
     return {
-        component: components.negation,
+        component: components.greek,
         props: {
-            component: build(data.val),
+            value: data.val
         }
     }
 }
 
 const buildTerm = data => {
+    if (data.power) {
+        return build({
+            mantissa: { ...data, power: null },
+            exponent: data.power,
+            type: 'power'
+        })
+    }
     return {
         component: components.term,
         props: {
-            constant: data.coeff ? build(data.coeff) : null,
             variable: data.vars,
         }
     }
 }
 
 const buildTerms = data => {
+    const vars = data.coeff ? [data.coeff, ...data.vars] : data.vars;
     return {
         component: components.terms,
         props: {
-            components: data.terms.map(d => build(d)),
+            components: vars.map(v => build(v)),
         }
     }
 }
 
-const buildOperation = data => {
-    if (data.symbol == '/') {
-        return buildFraction({
-            numer: data.lhs,
-            denom: data.rhs,
-        })
-    }
-    if (data.symbol == '^') {
-        return {
-            component: components.power,
-            props: {
-                coefficient: build(data.lhs),
-                exponent: build(data.rhs),
-            }
+const buildCoordinate = data => {
+    return {
+        component: components.coordinate,
+        props: {
+            components: data.points.map(v => build(v))
         }
     }
+}
+
+const buildBracket = data => {
     return {
-        component: components.expression,
+        component: components.bracket,
         props: {
-            lhs: build(data.lhs),
-            rhs: build(data.rhs),
-            brackets: data.brackets,
-            symbol: data.symbol,
+            inner: build(data.expression)
         }
     }
 }
@@ -120,16 +120,115 @@ const buildFunction = data => {
     }
 }
 
+const buildPower = data => {
+    return {
+        component: components.power,
+        props: {
+            coefficient: build(data.mantissa),
+            exponent: build(data.exponent)
+        }
+    }
+}
+
+const buildFraction = data => {
+    return {
+        component: components.fraction,
+        props: {
+            numerator: build(data.numer),
+            denominator: build(data.denom),
+        }
+    }
+}
+
+const buildImplicit = data => {
+    return {
+        component: components.implicit,
+        props: {
+            components: data.terms.map(v => build(v))
+        }
+    }
+}
+
+const buildExplicit = data => {
+    const reduced = data.terms.reduce((prev, curr) => {
+        if (curr.type === 'fraction' 
+            && curr.numer.type === 'integer' 
+            && curr.numer.val === 1 
+            && prev.length > 0 
+            && prev[prev.length - 1].type !== 'fraction') {
+                return [...prev.slice(0, prev.length - 1), {
+                ...curr,
+                numer: prev[prev.length - 1],
+            }]
+        }
+        return [...prev, curr]
+    }, []);
+    return {
+        component: components.explicit,
+        props: {
+            components: reduced.map(t => build(t))
+        }
+    }
+}
+
+const buildMultiplication = data => {
+    if (data.implicit) {
+        return buildImplicit(data);
+    } else {
+        return buildExplicit(data);
+    }
+}
+
+const buildAddition = data => {
+    return {
+        component: components.summation,
+        props: {
+            components: [build(data.terms[0]), ...data.terms.slice(1).map(t => {
+                if (t.type == 'negation') return build(t);
+                else return {
+                    component: components.addition,
+                    props: {
+                        component: build(t)
+                    }
+                }
+            })],
+        }
+    }
+}
+
+const buildNegation = data => {
+    return {
+        component: components.negation,
+        props: {
+            component: build(data.val),
+        }
+    }
+}
+
+const buildEquation = data => {
+    return {
+        component: components.equation,
+        props: {
+            components: data.expressions.map(e => build(e))
+        }
+    }
+}
+
 const builders = {
-    real: buildFloat,
-    integer: buildInteger,
-    greek: buildGreek,
-    fraction: buildFraction,
-    negation: buildNegation,
-    term: buildTerm,
-    terms: buildTerms,
-    operation: buildOperation,
-    function: buildFunction,
+    'real': buildFloat,
+    'integer': buildInteger,
+    'greek': buildGreek,
+    'term': buildTerm,
+    'terms': buildTerms,
+    'coordinate': buildCoordinate,
+    'brackets': buildBracket,
+    'function': buildFunction,
+    'power': buildPower,
+    'multiplication': buildMultiplication,
+    'fraction': buildFraction,
+    'addition': buildAddition,
+    'negation': buildNegation,
+    'equation': buildEquation,
 }
 
 
@@ -141,6 +240,7 @@ const build = data => {
 export const getComponent = expr => {
     try {
         const result = parse(expr);
+        if (!result) return null;
         const component = build(result);
         return component;
     } catch(err) {

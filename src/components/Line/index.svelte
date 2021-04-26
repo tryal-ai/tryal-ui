@@ -4,7 +4,7 @@
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
 
-    import Expression from 'components/Expression';
+    import Expression from '../Expression';
     import Button from './Button';
     export let value = '';
     export let valid = true;
@@ -55,6 +55,7 @@
         cursor: pointer;
         margin: 10px 0;
         border-radius: 5px;
+        width: 10%;
     }
 
     .line {
@@ -66,6 +67,7 @@
         border: none;
         font-size: 20px;
         margin-top: 5px;
+        width: 85%;
     }
     div {
         width: 100%;

@@ -4,11 +4,11 @@
 
     import Line from './Line';
     export let text = false;
-    
-    let workings = [{
-        value: '',
+    export let initial = [''];
+    let workings = initial.map(v => ({
+        value: v,
         valid: true,
-    }];
+    }));
     $: {
         workings = [...workings.filter(v => v.value !== ''), {
             value: '',

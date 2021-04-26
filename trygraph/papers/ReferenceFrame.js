@@ -1,4 +1,4 @@
-import { ondrag } from 'trygraph/events';
+import { ondrag } from '../events';
 import Tooltip from '../components/Tooltip';
 import { onhover } from '../events';
 // We use a scale factor on 0.9 on the ratio just to trim it down into frame

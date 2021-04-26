@@ -2,8 +2,10 @@
     export let value = 0;
 
     let symbols = {
-        "PI": "&#x03a0;"
+        "PI": "&#960;",
+        "EPSILON": "&#x3b5;",
+        "THETA": "&#x3b8;"
     }
 </script>
 
-<math-i>{@html symbols[value] ? symbols[value] : "&#x039e;"}</math-i>
+<math-i>{@html symbols[value.toUpperCase()] ? symbols[value.toUpperCase()] : "&#x039e;"}</math-i>
